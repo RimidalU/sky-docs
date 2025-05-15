@@ -1,0 +1,46 @@
+{
+    "name": "sky-docs",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "nodemon --exec tsx src/index.js --ext ts,tsx,js,json",
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "lint": "eslint .",
+        "commitlint": "commitlint --edit",
+        "prepare": "husky"
+    },
+    "author": "RimidalU",
+    "license": "BSD 3-Clause",
+    "description": "SkyDocs service",
+    "dependencies": {
+        "dotenv": "^16.5.0",
+        "nodemon": "^3.1.10"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.8.0",
+        "@eslint/compat": "^1.2.9",
+        "@types/node": "^22.15.3",
+        "@typescript-eslint/eslint-plugin": "^8.31.1",
+        "@typescript-eslint/parser": "^8.31.1",
+        "eslint-plugin-import": "^2.31.0",
+        "eslint-plugin-prettier": "^5.2.6",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.5.1",
+        "prettier": "^3.5.3",
+        "ts-node": "^10.9.2",
+        "tslib": "^2.8.1",
+        "tsx": "^4.19.4",
+        "typescript": "^5.8.3"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "**/*.{json,yaml,yml,toml, css, md}": [
+            "prettier --write"
+        ]
+    }
+}
