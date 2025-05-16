@@ -1,9 +1,14 @@
 import express, { Request, Response } from 'express'
+import cors from 'cors'
+
 import { AppDataSource } from './db /data-source.js'
 import logger from './utils/logger.utils.js'
+import { getEnv } from './utils/env.utils.js'
+
+const PORT = getEnv('PORT', 4000)
 
 const app = express()
-const port = process.env.PORT || 4000
+app.use(cors())
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!')
@@ -16,8 +21,8 @@ async function startServer() {
         await AppDataSource.initialize()
         logger.log('Database connected')
 
-        server = app.listen(port, () => {
-            logger.log(`Server running on port ${port}`)
+        server = app.listen(PORT, () => {
+            logger.log(`Server running on port ${PORT}`)
         })
     } catch (err) {
         logger.error('Database connection error:', err)
