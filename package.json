@@ -22,6 +22,7 @@
     "devDependencies": {
         "@commitlint/cli": "^19.8.0",
         "@eslint/compat": "^1.2.9",
+        "@types/express": "^5.0.1",
         "@types/node": "^22.15.3",
         "@typescript-eslint/eslint-plugin": "^8.31.1",
         "@typescript-eslint/parser": "^8.31.1",
