@@ -25,4 +25,25 @@ async function startServer() {
     }
 }
 
+const shutdown = () => {
+    logger.log('Shutting down...')
+
+    if (server) {
+        server.close(() => {
+            logger.log('HTTP server closed')
+
+            AppDataSource.destroy().then(() => {
+                logger.log('Database connection closed')
+
+                process.exit(0)
+            })
+        })
+    } else {
+        process.exit(0)
+    }
+}
+
+process.on('SIGTERM', shutdown)
+process.on('SIGINT', shutdown)
+
 startServer()
