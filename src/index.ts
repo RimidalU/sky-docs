@@ -8,6 +8,7 @@ import logger from './utils/logger.utils.js'
 import { getEnv } from './utils/env.utils.js'
 
 const PORT = getEnv('PORT', 4000)
+const API_VERSION = getEnv('API_VERSION', 1)
 
 const app = express()
 app.use(cors())
