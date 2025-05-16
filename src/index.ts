@@ -7,15 +7,24 @@ import { AppDataSource } from './db /data-source.js'
 import logger from './utils/logger.utils.js'
 import { getEnv } from './utils/env.utils.js'
 
+import authRouter from './auth/routes/auth.route.js'
+
 const PORT = getEnv('PORT', 4000)
 const API_VERSION = getEnv('API_VERSION', 1)
 
 const app = express()
 app.use(cors())
+app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!')
 })
+
+const router = express.Router()
+
+router.use('/signin', authRouter)
+
+app.use(`/v${API_VERSION}`, router)
 
 let server: ReturnType<typeof app.listen>
 
