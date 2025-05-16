@@ -15,10 +15,10 @@ export class RefreshToken {
     @Column({ type: 'varchar', length: 255, unique: true })
     token!: string
 
-    @Column()
+    @Column({ type: 'timestamp' })
     expiresAt!: Date
 
-    @Column({ default: false })
+    @Column({ default: false, type: 'boolean' })
     revoked!: boolean
 
     @ManyToOne(() => User, (user: User) => user.refreshTokens, {

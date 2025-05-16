@@ -12,10 +12,10 @@ export class User {
     @PrimaryGeneratedColumn()
     id!: number
 
-    @Column({ unique: true })
+    @Column({ unique: true, type: 'varchar', length: 255 })
     identifier!: string // email or telephone
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     password!: string //TODO: add Hash
 
     @OneToMany(() => RefreshToken, (token: RefreshToken) => token.user)
