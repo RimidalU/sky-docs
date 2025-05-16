@@ -1,4 +1,4 @@
-import { Level, levels } from '../constants/logger.constants.js'
+import { COLORS, Level, RESET, levels } from '../constants/logger.constants.js'
 
 import { getEnv } from './env.utils.js'
 
@@ -12,4 +12,18 @@ const getTimestamp = () => {
     return new Date().toISOString()
 }
 
-export { shouldLog, getTimestamp }
+function logger(level: Level, ...args: unknown[]) {
+    if (!shouldLog(level)) return
+
+    const color = COLORS[level] || COLORS.log
+    const prefix = `${color}[${level.toUpperCase()}] ${getTimestamp()}: ${RESET}`
+    // eslint-disable-next-line no-console
+    console[level](prefix, ...args)
+}
+
+export default {
+    error: (...args: unknown[]) => logger('error', ...args),
+    warn: (...args: unknown[]) => logger('warn', ...args),
+    info: (...args: unknown[]) => logger('info', ...args),
+    log: (...args: unknown[]) => logger('log', ...args),
+}
