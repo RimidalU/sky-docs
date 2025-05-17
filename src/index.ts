@@ -14,6 +14,7 @@ import {
     signupRouter,
 } from './auth/routes/index.js'
 import { tokenRefresh } from './middleware/tokenRefresh.middleware.js'
+import { fileRouter } from './file/routes/file.route.js'
 
 const PORT = getEnv('PORT', 4000)
 const API_VERSION = getEnv('API_VERSION', 1)
@@ -21,6 +22,7 @@ const API_VERSION = getEnv('API_VERSION', 1)
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.use(tokenRefresh)
 
@@ -34,6 +36,7 @@ router.use('/signin', signinRouter)
 router.use('/signup', signupRouter)
 router.use('/info', infoRouter)
 router.use('/logout', logoutRouter)
+router.use('/file', fileRouter)
 
 app.use(`/v${API_VERSION}`, router)
 
