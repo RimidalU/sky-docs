@@ -7,10 +7,7 @@ import { infoService } from '../services/info.service.js'
 
 const infoController = async (req: AuthRequest, res: Response) => {
     try {
-        const { userId } = req
-        if (!userId) {
-            return res.status(403).json({ message: USER_NOT_FOUND })
-        }
+        const userId = req.userId as number
 
         const identifier = await infoService(userId)
 

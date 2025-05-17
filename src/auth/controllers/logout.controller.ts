@@ -2,18 +2,12 @@ import { Response } from 'express'
 import logger from '../../utils/logger.utils.js'
 import { USER_NOT_FOUND } from '../constants/err.constants.js'
 import { AuthRequest } from '../../types/common.types.js'
-import {
-    INTERNAL_SERVER_ERROR,
-    NO_CONTENT,
-} from '../../constants/err.constants.js'
+import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 import { logoutService } from '../services/logout.service.js'
 
 const logoutController = async (req: AuthRequest, res: Response) => {
     try {
-        const { userId } = req
-        if (!userId) {
-            return res.status(403).json({ message: USER_NOT_FOUND })
-        }
+        const userId = req.userId as number
 
         await logoutService(userId)
 
