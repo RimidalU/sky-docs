@@ -20,11 +20,15 @@ const generateRefreshToken = (userId: number): GenerateRefreshTokenResponse => {
     const expiresIn = REFRESH_TOKEN_EXPIRES_IN_SECONDS
     const expiresAt = new Date(Date.now() + expiresIn * 1000)
 
-    const token = jwt.sign({ id: userId }, getEnv('ACCESS_TOKEN_SECRET'), {
+    const token = jwt.sign({ id: userId }, getEnv('REFRESH_TOKEN_SECRET'), {
         expiresIn,
     })
 
     return { token, expiresAt }
 }
 
-export { generateAccessToken, generateRefreshToken }
+const verifyAccessToken = (token: string): { id: number } => {
+    return jwt.verify(token, getEnv('ACCESS_TOKEN_SECRET')) as { id: number }
+}
+
+export { generateAccessToken, generateRefreshToken, verifyAccessToken }
