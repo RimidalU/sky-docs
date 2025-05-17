@@ -7,7 +7,12 @@ import { AppDataSource } from './db /data-source.js'
 import logger from './utils/logger.utils.js'
 import { getEnv } from './utils/env.utils.js'
 
-import authRouter from './auth/routes/auth.route.js'
+import {
+    signinRouter,
+    logoutRouter,
+    infoRouter,
+    signupRouter,
+} from './auth/routes/index.js'
 
 const PORT = getEnv('PORT', 4000)
 const API_VERSION = getEnv('API_VERSION', 1)
@@ -22,7 +27,10 @@ app.get('/', (req: Request, res: Response) => {
 
 const router = express.Router()
 
-router.use('/signin', authRouter)
+router.use('/signin', signinRouter)
+router.use('/signup', signupRouter)
+router.use('/info', infoRouter)
+router.use('/logout', logoutRouter)
 
 app.use(`/v${API_VERSION}`, router)
 
