@@ -30,4 +30,8 @@ const findUserByIdentifier = async (id: string): Promise<User | null> => {
     return await userRepository.findOne({ where: { identifier: id } })
 }
 
-export { findUserByIdentifier, createUserIfNotExist }
+const findUserById = async (id: number): Promise<User | null> => {
+    return await userRepository.findOne({ where: { id } })
+}
+
+export { findUserByIdentifier, createUserIfNotExist, findUserById }
