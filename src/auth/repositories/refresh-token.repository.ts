@@ -23,4 +23,10 @@ const saveRefreshToken = async ({
     await refreshTokenRepository.save(refreshToken)
 }
 
-export { saveRefreshToken }
+const getRefreshTokenByUserId = async (userId: number) => {
+    const refreshToken = await refreshTokenRepository.findOne({
+        where: { user: { id: userId } },
+    })
+    return refreshToken
+}
+export { saveRefreshToken, getRefreshTokenByUserId }
