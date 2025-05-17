@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { FORBIDDEN_ERROR } from '../constants/err.constants.js'
-
-interface AuthRequest extends Request {
-    userId?: number
-}
+import { AuthRequest } from '../types/common.types.js'
 
 const checkAuth = async (
     req: AuthRequest,
