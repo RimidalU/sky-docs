@@ -34,8 +34,16 @@ const deleteRefreshTokensByUserId = async (userId: number) => {
     await refreshTokenRepository.delete({ user: { id: userId } })
 }
 
+const validateRefreshTokenStored = async (refreshToken: string) => {
+    const refreshTokenStored = await refreshTokenRepository.findOne({
+        where: { token: refreshToken, revoked: false },
+    })
+    return refreshTokenStored
+}
+
 export {
     saveRefreshToken,
     getRefreshTokenByUserId,
     deleteRefreshTokensByUserId,
+    validateRefreshTokenStored,
 }
