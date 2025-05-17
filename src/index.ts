@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 
-import express, { Request, Response } from 'express'
+import express, { Request, Response, Router } from 'express'
 import cors from 'cors'
 
 import { AppDataSource } from './db /data-source.js'
@@ -25,7 +25,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!')
 })
 
-const router = express.Router()
+const router = Router()
 
 router.use('/signin', signinRouter)
 router.use('/signup', signupRouter)
