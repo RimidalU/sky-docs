@@ -12,6 +12,7 @@ import {
     generateRefreshToken,
 } from '../utils/token.utils.js'
 import { saveRefreshToken } from '../repositories/refresh-token.repository.js'
+import { signupService } from '../services/signup.service.js'
 
 interface SignupRequest extends Request {
     body: {
@@ -32,22 +33,9 @@ const signupController = async (req: SignupRequest, res: Response) => {
             return res.status(400).json({ error: MISSING_ID_OR_PASSWORD })
         }
 
-        const hashedPassword = await createPasswordHash(password)
+        const { accessToken, refreshToken } = await signupService(id, password)
 
-        const user = await createUserIfNotExist(id, hashedPassword)
-
-        const accessToken = generateAccessToken(user.id)
-        const refreshToken = generateRefreshToken(user.id)
-
-        await saveRefreshToken({
-            token: refreshToken.token,
-            expiresAt: refreshToken.expiresAt,
-            user,
-        })
-
-        return res
-            .status(201)
-            .json({ accessToken, refreshToken: refreshToken.token })
+        return res.status(201).json({ accessToken, refreshToken })
     } catch (err: any) {
         logger.error('Signup Controller error:', err)
 
