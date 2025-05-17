@@ -27,8 +27,21 @@ const generateRefreshToken = (userId: number): GenerateRefreshTokenResponse => {
     return { token, expiresAt }
 }
 
+const validateRefreshToken = async (token: string) => {
+    try {
+        return jwt.verify(token, getEnv('REFRESH_TOKEN_SECRET'))
+    } catch (err) {
+        return null
+    }
+}
+
 const verifyAccessToken = (token: string): { id: number } => {
     return jwt.verify(token, getEnv('ACCESS_TOKEN_SECRET')) as { id: number }
 }
 
-export { generateAccessToken, generateRefreshToken, verifyAccessToken }
+export {
+    generateAccessToken,
+    generateRefreshToken,
+    verifyAccessToken,
+    validateRefreshToken,
+}
