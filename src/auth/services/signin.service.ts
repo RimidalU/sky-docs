@@ -5,7 +5,10 @@ import {
     generateRefreshToken,
 } from '../utils/token.utils.js'
 import { comparePassword } from '../utils/crypto.utils.js'
-import { saveRefreshToken } from '../repositories/refresh-token.repository.js'
+import {
+    deleteRefreshTokensByUserId,
+    saveRefreshToken,
+} from '../repositories/refresh-token.repository.js'
 
 export interface TokenPair {
     accessToken: string
@@ -26,6 +29,8 @@ const signinService = async (id: string, password: string) => {
 
         const accessToken = generateAccessToken(user.id)
         const refreshToken = generateRefreshToken(user.id)
+
+        await deleteRefreshTokensByUserId(user.id)
 
         await saveRefreshToken({
             token: refreshToken.token,

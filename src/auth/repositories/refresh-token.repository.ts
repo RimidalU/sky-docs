@@ -29,4 +29,13 @@ const getRefreshTokenByUserId = async (userId: number) => {
     })
     return refreshToken
 }
-export { saveRefreshToken, getRefreshTokenByUserId }
+
+const deleteRefreshTokensByUserId = async (userId: number) => {
+    await refreshTokenRepository.delete({ user: { id: userId } })
+}
+
+export {
+    saveRefreshToken,
+    getRefreshTokenByUserId,
+    deleteRefreshTokensByUserId,
+}
