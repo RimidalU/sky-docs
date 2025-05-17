@@ -3,18 +3,28 @@ import jwt from 'jsonwebtoken'
 import { getEnv } from '../../utils/env.utils.js'
 import {
     ACCESS_TOKEN_EXPIRE,
-    REFRESH_TOKEN_EXPIRE_DAYS,
+    REFRESH_TOKEN_EXPIRES_IN_SECONDS,
 } from '../constants/token.constants.js'
-const generateAccessToken = (userId: string): string => {
+
+interface GenerateRefreshTokenResponse {
+    token: string
+    expiresAt: Date
+}
+const generateAccessToken = (userId: number): string => {
     return jwt.sign({ id: userId }, getEnv('ACCESS_TOKEN_SECRET'), {
-        expiresIn: Number(getEnv(ACCESS_TOKEN_EXPIRE)),
+        expiresIn: ACCESS_TOKEN_EXPIRE,
     })
 }
 
-const generateRefreshToken = (userId: string): string => {
-    return jwt.sign({ id: userId }, getEnv('REFRESH_TOKEN_SECRET'), {
-        expiresIn: REFRESH_TOKEN_EXPIRE_DAYS,
+const generateRefreshToken = (userId: number): GenerateRefreshTokenResponse => {
+    const expiresIn = REFRESH_TOKEN_EXPIRES_IN_SECONDS
+    const expiresAt = new Date(Date.now() + expiresIn * 1000)
+
+    const token = jwt.sign({ id: userId }, getEnv('ACCESS_TOKEN_SECRET'), {
+        expiresIn,
     })
+
+    return { token, expiresAt }
 }
 
 export { generateAccessToken, generateRefreshToken }
