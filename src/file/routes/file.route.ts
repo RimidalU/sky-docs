@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { upload } from '../../middleware/upload.middleware.js'
 import { uploadFileController } from '../controllers/uploadFile.controller.js'
 import { checkAuth } from '../../middleware/auth.middleware.js'
+import { getFileInfoController } from '../controllers/getFileInfo.controller.js'
 
 const fileRouter = Router()
 
@@ -13,7 +14,7 @@ fileRouter.post(
 )
 // fileRouter.get('/list', listFilesController)
 // fileRouter.delete('/delete/:id', deleteFileController)
-// fileRouter.get('/:id', getFileInfoController)
+fileRouter.get('/:id', getFileInfoController)
 // fileRouter.get('/download/:id', downloadFileController)
 // fileRouter.put('/update/:id', upload.single('file'), updateFileController)
 
