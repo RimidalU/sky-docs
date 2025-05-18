@@ -14,7 +14,12 @@ const updateFileService = async (
 ) => {
     try {
         const oldFile = await getFileInfoByIdAndUserId(userId, fileId)
-        if (!oldFile) return null
+
+        if (!oldFile) {
+            await deleteLocalFile(file.filename)
+
+            return null
+        }
 
         await deleteLocalFile(`${oldFile.name}${oldFile.extension}`)
 
