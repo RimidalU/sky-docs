@@ -31,4 +31,23 @@ const removeFile = async (userId: number, fileId: number) => {
     await fileRepository.delete({ id: fileId, user: { id: userId } })
 }
 
-export { createFile, getFileInfoByIdAndUserId, removeFile }
+const getListFilesByUserId = async (
+    userId: number,
+    page: number,
+    listSize: number
+) => {
+    const files = await fileRepository.findAndCount({
+        where: { user: { id: userId } },
+        order: { uploadedAt: 'DESC' },
+        skip: (page - 1) * listSize,
+        take: listSize,
+    })
+    return files
+}
+
+export {
+    createFile,
+    getFileInfoByIdAndUserId,
+    removeFile,
+    getListFilesByUserId,
+}
