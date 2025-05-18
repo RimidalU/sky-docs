@@ -6,6 +6,7 @@ import { getFileInfoController } from '../controllers/getFileInfo.controller.js'
 import { deleteFileController } from '../controllers/deleteFile.controller.js'
 import { listFilesController } from '../controllers/listFiles.controller.js'
 import { downloadFileController } from '../controllers/downloadFile.controller.js'
+import { updateFileController } from '../controllers/updateFile.controller.js'
 
 const fileRouter = Router()
 
@@ -19,6 +20,6 @@ fileRouter.get('/list', checkAuth, listFilesController)
 fileRouter.delete('/delete/:id', checkAuth, deleteFileController)
 fileRouter.get('/:id', checkAuth, getFileInfoController)
 fileRouter.get('/download/:id', downloadFileController)
-// fileRouter.put('/update/:id', upload.single('file'), updateFileController)
+fileRouter.put('/update/:id', upload.single('file'), updateFileController)
 
 export { fileRouter }
