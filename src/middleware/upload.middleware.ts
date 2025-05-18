@@ -1,6 +1,10 @@
 import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
+import {
+    generateUniqueFileName,
+    getSanitizeFileNameAndExt,
+} from '../file/utils/common.utils.js'
 
 const uploadDir = path.join(process.cwd(), 'uploads')
 
@@ -10,13 +14,12 @@ if (!fs.existsSync(uploadDir)) {
 
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => cb(null, uploadDir),
+
     filename: (_req, file, cb) => {
-        const timestamp = Date.now()
-        const ext = path.extname(file.originalname)
-        const safeName = file.originalname
-            .replace(ext, '')
-            .replace(/[^a-zA-Z0-9-_]/g, '')
-        cb(null, `${safeName}-${timestamp}${ext}`)
+        const { safeName, ext } = getSanitizeFileNameAndExt(file.originalname)
+
+        const fileName = generateUniqueFileName(safeName, ext)
+        cb(null, fileName)
     },
 })
 
