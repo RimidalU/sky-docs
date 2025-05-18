@@ -16,7 +16,7 @@ const getFileInfoController = async (req: AuthRequest, res: Response) => {
 
         const fileInfo = await getFileInfoService(userId, fileId)
 
-        return res.status(200).json(fileInfo)
+        return res.status(201).json(fileInfo)
     } catch (err: any) {
         if (err.message === FILE_NOT_FOUND) {
             return res.status(404).json({ error: FILE_NOT_FOUND })
