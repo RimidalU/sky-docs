@@ -45,9 +45,23 @@ const getListFilesByUserId = async (
     return files
 }
 
+const updateFile = async (oldFile: File, file: MulterFile): Promise<File> => {
+    const { safeName, ext } = getSanitizeFileNameAndExt(file.filename)
+
+    oldFile.name = safeName
+    oldFile.extension = ext
+    oldFile.mimeType = file.mimetype
+    oldFile.size = file.size
+    oldFile.uploadedAt = new Date()
+
+    await fileRepository.save(oldFile)
+    return oldFile
+}
+
 export {
     createFile,
     getFileInfoByIdAndUserId,
     removeFile,
     getListFilesByUserId,
+    updateFile,
 }
