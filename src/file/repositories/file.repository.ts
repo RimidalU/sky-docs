@@ -27,4 +27,8 @@ const getFileInfoByIdAndUserId = async (userId: number, fileId: number) => {
     return file
 }
 
-export { createFile, getFileInfoByIdAndUserId }
+const removeFile = async (userId: number, fileId: number) => {
+    await fileRepository.delete({ id: fileId, user: { id: userId } })
+}
+
+export { createFile, getFileInfoByIdAndUserId, removeFile }
