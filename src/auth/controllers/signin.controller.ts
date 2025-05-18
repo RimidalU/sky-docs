@@ -1,21 +1,13 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { signinService } from '../services/signin.service.js'
 import logger from '../../utils/logger.utils.js'
 import {
     INVALID_CREDENTIALS,
     MISSING_ID_OR_PASSWORD,
 } from '../constants/err.constants.js'
-import { AuthRequest } from '../../types/common.types.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 
-interface SigninRequest extends AuthRequest {
-    body: {
-        id: string
-        password: string
-    }
-}
-
-const signinController = async (req: SigninRequest, res: Response) => {
+const signinController = async (req: Request, res: Response) => {
     try {
         const { id, password } = req.body
 

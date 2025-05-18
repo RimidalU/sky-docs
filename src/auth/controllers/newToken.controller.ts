@@ -1,15 +1,13 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import logger from '../../utils/logger.utils.js'
 import {
-    INVALID_CREDENTIALS,
     INVALID_REFRESH_TOKEN,
     MISSING_REFRESH_TOKEN,
 } from '../constants/err.constants.js'
-import { AuthRequest } from '../../types/common.types.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 import { newTokenService } from '../services/newToken.service.js'
 
-interface NewTokenRequest extends AuthRequest {
+interface NewTokenRequest extends Request {
     body: {
         refreshToken: string
     }

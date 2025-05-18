@@ -7,19 +7,27 @@ import { deleteFileController } from '../controllers/deleteFile.controller.js'
 import { listFilesController } from '../controllers/listFiles.controller.js'
 import { downloadFileController } from '../controllers/downloadFile.controller.js'
 import { updateFileController } from '../controllers/updateFile.controller.js'
+import { setUserId } from '../../middleware/setUserId.middleware.js'
 
 const fileRouter = Router()
 
 fileRouter.post(
     '/upload',
+    setUserId,
     checkAuth,
     upload.single('file'),
     uploadFileController
 )
-fileRouter.get('/list', checkAuth, listFilesController)
-fileRouter.delete('/delete/:id', checkAuth, deleteFileController)
-fileRouter.get('/:id', checkAuth, getFileInfoController)
-fileRouter.get('/download/:id', downloadFileController)
-fileRouter.put('/update/:id', upload.single('file'), updateFileController)
+fileRouter.get('/list', setUserId, checkAuth, listFilesController)
+fileRouter.delete('/delete/:id', setUserId, checkAuth, deleteFileController)
+fileRouter.get('/:id', setUserId, checkAuth, getFileInfoController)
+fileRouter.get('/download/:id', setUserId, checkAuth, downloadFileController)
+fileRouter.put(
+    '/update/:id',
+    setUserId,
+    checkAuth,
+    upload.single('file'),
+    updateFileController
+)
 
 export { fileRouter }

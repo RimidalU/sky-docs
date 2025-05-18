@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import logger from '../../utils/logger.utils.js'
 import {
     MISSING_ID_OR_PASSWORD,
@@ -6,9 +6,8 @@ import {
 } from '../constants/err.constants.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 import { signupService } from '../services/signup.service.js'
-import { AuthRequest } from '../../types/common.types.js'
 
-interface SignupRequest extends AuthRequest {
+interface SignupRequest extends Request {
     body: {
         id: string
         password: string

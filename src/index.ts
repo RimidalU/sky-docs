@@ -13,7 +13,6 @@ import {
     infoRouter,
     signupRouter,
 } from './auth/routes/index.js'
-import { tokenRefresh } from './middleware/tokenRefresh.middleware.js'
 import { fileRouter } from './file/routes/file.route.js'
 
 const PORT = getEnv('PORT', 4000)
@@ -23,8 +22,6 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-app.use(tokenRefresh)
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!')

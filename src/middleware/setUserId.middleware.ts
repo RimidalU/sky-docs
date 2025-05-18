@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from 'express'
 import { verifyAccessToken } from '../auth/utils/token.utils.js'
 import jwt from 'jsonwebtoken'
 import { AuthRequest } from '../types/common.types.js'
+import { TOKEN_EXPIRED_ERROR } from '../constants/err.constants.js'
 
-const tokenRefresh = async (
+const setUserId = async (
     req: AuthRequest,
     res: Response,
     next: NextFunction
@@ -24,11 +25,10 @@ const tokenRefresh = async (
         return next()
     } catch (err) {
         if (err instanceof jwt.TokenExpiredError) {
-            console.log("res.status(401).json({ message: 'Token expired' })") //TODO: add token refresh
-            return next()
+            return res.status(401).json({ message: TOKEN_EXPIRED_ERROR })
         }
         return next()
     }
 }
 
-export { tokenRefresh }
+export { setUserId }
