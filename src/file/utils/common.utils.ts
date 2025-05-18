@@ -6,10 +6,6 @@ const UPLOAD_DIR = path.resolve('uploads')
 
 const deleteLocalFile = async (fileName: string): Promise<void> => {
     const filePath = path.join(UPLOAD_DIR, fileName)
-
-    console.log(fileName)
-    console.log(filePath)
-
     try {
         await fs.unlink(filePath)
     } catch (err: any) {
