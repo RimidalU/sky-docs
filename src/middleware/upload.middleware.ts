@@ -5,8 +5,9 @@ import {
     generateUniqueFileName,
     getSanitizeFileNameAndExt,
 } from '../file/utils/common.utils.js'
+import { UPLOAD_DIR } from '../file/constants/common.constants.js'
 
-const uploadDir = path.join(process.cwd(), 'uploads')
+const uploadDir = path.join(process.cwd(), UPLOAD_DIR)
 
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true })

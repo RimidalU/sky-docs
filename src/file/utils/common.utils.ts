@@ -1,11 +1,12 @@
 import path from 'path'
 import fs from 'fs/promises'
 import logger from '../../utils/logger.utils.js'
+import { UPLOAD_DIR } from '../constants/common.constants.js'
 
-const UPLOAD_DIR = path.resolve('uploads')
+const uploadDir = path.resolve(UPLOAD_DIR)
 
 const deleteLocalFile = async (fileName: string): Promise<void> => {
-    const filePath = path.join(UPLOAD_DIR, fileName)
+    const filePath = path.join(uploadDir, fileName)
     try {
         await fs.unlink(filePath)
     } catch (err: any) {
