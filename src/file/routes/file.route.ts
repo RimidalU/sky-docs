@@ -4,6 +4,7 @@ import { uploadFileController } from '../controllers/uploadFile.controller.js'
 import { checkAuth } from '../../middleware/auth.middleware.js'
 import { getFileInfoController } from '../controllers/getFileInfo.controller.js'
 import { deleteFileController } from '../controllers/deleteFile.controller.js'
+import { listFilesController } from '../controllers/listFiles.controller.js'
 
 const fileRouter = Router()
 
@@ -13,7 +14,7 @@ fileRouter.post(
     upload.single('file'),
     uploadFileController
 )
-// fileRouter.get('/list', listFilesController)
+fileRouter.get('/list', listFilesController)
 fileRouter.delete('/delete/:id', checkAuth, deleteFileController)
 fileRouter.get('/:id', checkAuth, getFileInfoController)
 // fileRouter.get('/download/:id', downloadFileController)
