@@ -7,8 +7,6 @@ import { USER_NOT_FOUND } from '../../auth/constants/err.constants.js'
 
 const uploadFileController = async (req: AuthRequest, res: Response) => {
     try {
-        console.log(req.file)
-
         if (!req.file)
             return res.status(400).json({ error: 'File is required' })
 

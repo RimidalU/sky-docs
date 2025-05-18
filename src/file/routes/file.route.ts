@@ -1,10 +1,16 @@
 import { Router } from 'express'
 import { upload } from '../../middleware/upload.middleware.js'
 import { uploadFileController } from '../controllers/uploadFile.controller.js'
+import { checkAuth } from '../../middleware/auth.middleware.js'
 
 const fileRouter = Router()
 
-fileRouter.post('/upload', upload.single('file'), uploadFileController)
+fileRouter.post(
+    '/upload',
+    checkAuth,
+    upload.single('file'),
+    uploadFileController
+)
 // fileRouter.get('/list', listFilesController)
 // fileRouter.delete('/delete/:id', deleteFileController)
 // fileRouter.get('/:id', getFileInfoController)
