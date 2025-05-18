@@ -20,4 +20,11 @@ const createFile = async (userId: number, file: MulterFile): Promise<File> => {
     return newFile
 }
 
-export { createFile }
+const getFileInfoByIdAndUserId = async (userId: number, fileId: number) => {
+    const file = await fileRepository.findOne({
+        where: { id: fileId, user: { id: userId } },
+    })
+    return file
+}
+
+export { createFile, getFileInfoByIdAndUserId }
