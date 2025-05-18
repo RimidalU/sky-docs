@@ -4,11 +4,11 @@ import { AuthRequest } from '../../types/common.types.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 import { uploadFileService } from '../services/uploadFile.service.js'
 import { USER_NOT_FOUND } from '../../auth/constants/err.constants.js'
+import { MISSING_FILE } from '../constants/err.constants.js'
 
 const uploadFileController = async (req: AuthRequest, res: Response) => {
     try {
-        if (!req.file)
-            return res.status(400).json({ error: 'File is required' })
+        if (!req.file) return res.status(400).json({ error: MISSING_FILE })
 
         const userId = req.userId as number
         const fileData = req.file
