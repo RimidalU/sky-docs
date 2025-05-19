@@ -6,16 +6,19 @@ const refreshTokenRepository = AppDataSource.getRepository(RefreshToken)
 
 interface SaveRefreshTokenPayload {
     token: string
+    fingerprint: string
     user: User
     expiresAt: Date
 }
 const saveRefreshToken = async ({
     token,
+    fingerprint,
     user,
     expiresAt,
 }: SaveRefreshTokenPayload) => {
     const refreshToken = refreshTokenRepository.create({
         token,
+        fingerprint,
         user,
         expiresAt,
         revoked: false,
@@ -23,27 +26,36 @@ const saveRefreshToken = async ({
     await refreshTokenRepository.save(refreshToken)
 }
 
-const getRefreshTokenByUserId = async (userId: number) => {
+const getRefreshTokenByUserIdAndFingerprint = async (
+    userId: number,
+    fingerprint: string
+) => {
     const refreshToken = await refreshTokenRepository.findOne({
-        where: { user: { id: userId } },
+        where: { fingerprint, user: { id: userId } },
     })
     return refreshToken
 }
 
-const deleteRefreshTokensByUserId = async (userId: number) => {
-    await refreshTokenRepository.delete({ user: { id: userId } })
+const deleteRefreshTokensByUserId = async (
+    userId: number,
+    fingerprint: string
+) => {
+    await refreshTokenRepository.delete({ fingerprint, user: { id: userId } })
 }
 
-const validateRefreshTokenStored = async (refreshToken: string) => {
+const validateRefreshTokenStored = async (
+    refreshToken: string,
+    fingerprint: string
+) => {
     const refreshTokenStored = await refreshTokenRepository.findOne({
-        where: { token: refreshToken, revoked: false },
+        where: { token: refreshToken, revoked: false, fingerprint },
     })
     return refreshTokenStored
 }
 
 export {
     saveRefreshToken,
-    getRefreshTokenByUserId,
+    getRefreshTokenByUserIdAndFingerprint,
     deleteRefreshTokensByUserId,
     validateRefreshTokenStored,
 }

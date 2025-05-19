@@ -6,6 +6,7 @@ import {
     MISSING_ID_OR_PASSWORD,
 } from '../constants/err.constants.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
+import { generateFingerprint } from '../../utils/auth.utils.js'
 
 const signinController = async (req: Request, res: Response) => {
     try {
@@ -15,7 +16,9 @@ const signinController = async (req: Request, res: Response) => {
             return res.status(400).json({ error: MISSING_ID_OR_PASSWORD })
         }
 
-        const tokens = await signinService(id, password)
+        const fingerprint = generateFingerprint(req)
+
+        const tokens = await signinService(id, password, fingerprint)
 
         return res.status(201).json(tokens)
     } catch (err: any) {

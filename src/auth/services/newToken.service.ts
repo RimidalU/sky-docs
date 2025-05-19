@@ -11,11 +11,15 @@ import {
 } from '../repositories/refresh-token.repository.js'
 import { findUserById } from '../repositories/user.repository.js'
 
-const newTokenService = async (refreshToken: string) => {
+const newTokenService = async (refreshToken: string, fingerprint: string) => {
     try {
         const payloadToken = await validateRefreshToken(refreshToken)
 
-        if (!payloadToken || typeof payloadToken === 'string') {
+        if (
+            !payloadToken ||
+            typeof payloadToken === 'string' ||
+            payloadToken.fingerprint !== fingerprint
+        ) {
             throw new Error(INVALID_REFRESH_TOKEN)
         }
 
@@ -25,7 +29,10 @@ const newTokenService = async (refreshToken: string) => {
             throw new Error(INVALID_REFRESH_TOKEN)
         }
 
-        const isStoredToken = await validateRefreshTokenStored(refreshToken)
+        const isStoredToken = await validateRefreshTokenStored(
+            refreshToken,
+            fingerprint
+        )
 
         if (!isStoredToken) {
             throw new Error(INVALID_REFRESH_TOKEN)
@@ -40,10 +47,11 @@ const newTokenService = async (refreshToken: string) => {
         const accessToken = generateAccessToken(userId)
         const newRefreshToken = generateRefreshToken(userId)
 
-        await deleteRefreshTokensByUserId(userId)
+        await deleteRefreshTokensByUserId(userId, fingerprint)
 
         await saveRefreshToken({
             token: newRefreshToken.token,
+            fingerprint,
             expiresAt: newRefreshToken.expiresAt,
             user,
         })

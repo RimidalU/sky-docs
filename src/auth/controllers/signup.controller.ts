@@ -6,6 +6,7 @@ import {
 } from '../constants/err.constants.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 import { signupService } from '../services/signup.service.js'
+import { generateFingerprint } from '../../utils/auth.utils.js'
 
 interface SignupRequest extends Request {
     body: {
@@ -21,8 +22,13 @@ const signupController = async (req: SignupRequest, res: Response) => {
         if (!id || !password) {
             return res.status(400).json({ error: MISSING_ID_OR_PASSWORD })
         }
+        const fingerPrint = generateFingerprint(req)
 
-        const { accessToken, refreshToken } = await signupService(id, password)
+        const { accessToken, refreshToken } = await signupService(
+            id,
+            password,
+            fingerPrint
+        )
 
         return res.status(201).json({ accessToken, refreshToken })
     } catch (err: any) {

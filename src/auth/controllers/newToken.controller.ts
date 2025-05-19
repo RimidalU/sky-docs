@@ -6,6 +6,7 @@ import {
 } from '../constants/err.constants.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 import { newTokenService } from '../services/newToken.service.js'
+import { generateFingerprint } from '../../utils/auth.utils.js'
 
 interface NewTokenRequest extends Request {
     body: {
@@ -21,7 +22,9 @@ const newTokenController = async (req: NewTokenRequest, res: Response) => {
             return res.status(400).json({ error: MISSING_REFRESH_TOKEN })
         }
 
-        const tokens = await newTokenService(refreshToken)
+        const fingerprint = generateFingerprint(req)
+
+        const tokens = await newTokenService(refreshToken, fingerprint)
 
         return res.status(201).json(tokens)
     } catch (err: any) {

@@ -15,6 +15,9 @@ export class RefreshToken {
     @Column({ type: 'varchar', length: 255, unique: true })
     token!: string
 
+    @Column({ type: 'varchar', length: 64 })
+    fingerprint!: string
+
     @Column({ type: 'timestamp' })
     expiresAt!: Date
 

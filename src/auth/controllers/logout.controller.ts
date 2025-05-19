@@ -4,12 +4,14 @@ import { USER_NOT_FOUND } from '../constants/err.constants.js'
 import { AuthRequest } from '../../types/common.types.js'
 import { INTERNAL_SERVER_ERROR } from '../../constants/err.constants.js'
 import { logoutService } from '../services/logout.service.js'
+import { generateFingerprint } from '../../utils/auth.utils.js'
 
 const logoutController = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.userId as number
+        const fingerprint = generateFingerprint(req)
 
-        await logoutService(userId)
+        await logoutService(userId, fingerprint)
 
         return res.status(204).send()
     } catch (err: any) {

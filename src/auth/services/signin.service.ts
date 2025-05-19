@@ -15,7 +15,11 @@ export interface TokenPair {
     refreshToken: string
 }
 
-const signinService = async (id: string, password: string) => {
+const signinService = async (
+    id: string,
+    password: string,
+    fingerprint: string
+) => {
     try {
         const user = await findUserByIdentifier(id)
         if (!user) {
@@ -30,10 +34,11 @@ const signinService = async (id: string, password: string) => {
         const accessToken = generateAccessToken(user.id)
         const refreshToken = generateRefreshToken(user.id)
 
-        await deleteRefreshTokensByUserId(user.id)
+        await deleteRefreshTokensByUserId(user.id, fingerprint)
 
         await saveRefreshToken({
             token: refreshToken.token,
+            fingerprint,
             expiresAt: refreshToken.expiresAt,
             user,
         })

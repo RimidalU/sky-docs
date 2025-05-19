@@ -6,7 +6,11 @@ import {
     generateRefreshToken,
 } from '../utils/token.utils.js'
 
-const signupService = async (id: string, password: string) => {
+const signupService = async (
+    id: string,
+    password: string,
+    fingerprint: string
+) => {
     try {
         const hashedPassword = await createPasswordHash(password)
 
@@ -17,6 +21,7 @@ const signupService = async (id: string, password: string) => {
 
         await saveRefreshToken({
             token: refreshToken.token,
+            fingerprint,
             expiresAt: refreshToken.expiresAt,
             user,
         })
