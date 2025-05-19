@@ -1,0 +1,28 @@
+Table Users {
+  id integer [primary key]
+  identifier varchar [unique]
+  password varchar
+}
+
+Table RefreshTokens {
+  id integer [primary key]
+  jti varchar [unique]
+  token varchar [unique]
+  fingerprint varchar
+  expires_at datetime
+  revoked boolean [default: false]
+  user_id integer
+}
+
+Table Files {
+  id integer [primary key]
+  name varchar
+  extension varchar
+  mime_type varchar
+  size bigint
+  uploaded_at datetime
+  user_id integer
+}
+
+Ref: RefreshTokens.user_id > Users.id
+Ref: Files.user_id > Users.id
