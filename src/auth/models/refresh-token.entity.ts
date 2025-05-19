@@ -12,6 +12,9 @@ export class RefreshToken {
     @PrimaryGeneratedColumn()
     id!: number
 
+    @Column({ unique: true, type: 'varchar', length: 36 })
+    jti!: string
+
     @Column({ type: 'varchar', length: 255, unique: true })
     token!: string
 

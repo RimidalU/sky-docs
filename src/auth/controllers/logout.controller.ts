@@ -9,9 +9,11 @@ import { generateFingerprint } from '../../utils/auth.utils.js'
 const logoutController = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.userId as number
+        const jti = req.jti as string
+
         const fingerprint = generateFingerprint(req)
 
-        await logoutService(userId, fingerprint)
+        await logoutService(userId, fingerprint, jti)
 
         return res.status(204).send()
     } catch (err: any) {

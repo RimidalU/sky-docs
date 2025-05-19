@@ -14,6 +14,7 @@ import {
     signupRouter,
 } from './auth/routes/index.js'
 import { fileRouter } from './file/routes/file.route.js'
+import { redisClient } from './utils/redisClient.js'
 
 const PORT = getEnv('PORT', 4000)
 const API_VERSION = getEnv('API_VERSION', 1)
@@ -44,6 +45,11 @@ async function startServer() {
         await AppDataSource.initialize()
         logger.log('Database connected')
 
+        redisClient.on('connect', () => {
+            logger.log('Redis connected')
+        })
+        await redisClient.connect()
+
         server = app.listen(PORT, () => {
             logger.log(`Server running on port ${PORT}`)
         })
@@ -66,6 +72,11 @@ const shutdown = () => {
                 process.exit(0)
             })
         })
+
+        redisClient.on('end', () => {
+            logger.log('Redis connection closed')
+        })
+        redisClient.disconnect()
     } else {
         process.exit(0)
     }

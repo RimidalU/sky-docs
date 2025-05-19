@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import crypto from 'crypto'
 
 const SALT_ROUNDS = 10
 
@@ -8,4 +9,6 @@ const createPasswordHash = async (password: string) => {
 const comparePassword = async (password: string, passwordHash: string) =>
     await bcrypt.compare(password, passwordHash)
 
-export { createPasswordHash, comparePassword }
+const getRandomUUID = () => crypto.randomUUID()
+
+export { createPasswordHash, comparePassword, getRandomUUID }

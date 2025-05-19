@@ -6,18 +6,21 @@ const refreshTokenRepository = AppDataSource.getRepository(RefreshToken)
 
 interface SaveRefreshTokenPayload {
     token: string
+    jti: string
     fingerprint: string
     user: User
     expiresAt: Date
 }
 const saveRefreshToken = async ({
     token,
+    jti,
     fingerprint,
     user,
     expiresAt,
 }: SaveRefreshTokenPayload) => {
     const refreshToken = refreshTokenRepository.create({
         token,
+        jti,
         fingerprint,
         user,
         expiresAt,
@@ -38,9 +41,13 @@ const getRefreshTokenByUserIdAndFingerprint = async (
 
 const deleteRefreshTokensByUserId = async (
     userId: number,
-    fingerprint: string
+    fingerprint: string,
+    jti: string
 ) => {
-    await refreshTokenRepository.delete({ fingerprint, user: { id: userId } })
+    await refreshTokenRepository.update(
+        { fingerprint, user: { id: userId }, jti },
+        { revoked: true }
+    )
 }
 
 const validateRefreshTokenStored = async (
