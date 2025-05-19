@@ -35,7 +35,7 @@ SkyDocs is a backend service for file storage, upload, and management with user 
 
 The project implements best security practices (refresh/access tokens, blacklist, fingerprint), a strict modular structure, and covers all CRUD operations for files.
 
-> ### Technologies: 
+> #### Technologies: 
 > - **Node.js** and **Express** for server and routing
 > - **TypeScript** for type safety and modern JS features
 > - **MySQL** with **TypeORM** for relational database management
@@ -44,6 +44,19 @@ The project implements best security practices (refresh/access tokens, blacklist
 > - **Multer** for handling file uploads
 > - **bcrypt** for password hashing
 > - **Husky**, **ESLint**, **Prettier**, **Commitlint** for code quality and git hooks
+
+#### ERD:
+
+<details>
+
+[![Link ERD](./assets/erd.png)](https://dbdiagram.io/d/682b2c5c1227bdcb4ef96a5e)
+
+</details>
+
+- [ERD File](./erd.dbml)
+
+- [to ERD on dbdiagram.io](https://dbdiagram.io/d/682b2c5c1227bdcb4ef96a5e)
+
 
 ## Project setup
 
