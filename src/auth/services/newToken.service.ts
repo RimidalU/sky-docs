@@ -10,6 +10,7 @@ import {
     validateRefreshTokenStored,
 } from '../repositories/refresh-token.repository.js'
 import { findUserById } from '../repositories/user.repository.js'
+import { getRandomUUID } from '../utils/crypto.utils.js'
 
 const newTokenService = async (refreshToken: string, fingerprint: string) => {
     try {
@@ -44,13 +45,16 @@ const newTokenService = async (refreshToken: string, fingerprint: string) => {
             throw new Error(INVALID_REFRESH_TOKEN)
         }
 
-        const accessToken = generateAccessToken(userId)
-        const newRefreshToken = generateRefreshToken(userId)
+        const jti = getRandomUUID()
 
-        await deleteRefreshTokensByUserId(userId, fingerprint)
+        const accessToken = generateAccessToken(userId, jti)
+        const newRefreshToken = generateRefreshToken(userId, jti)
+
+        await deleteRefreshTokensByUserId(userId, fingerprint, jti)
 
         await saveRefreshToken({
             token: newRefreshToken.token,
+            jti,
             fingerprint,
             expiresAt: newRefreshToken.expiresAt,
             user,
