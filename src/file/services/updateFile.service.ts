@@ -6,6 +6,7 @@ import {
 } from '../repositories/file.repository.js'
 import { deleteLocalFile } from '../utils/common.utils.js'
 import { MulterFile } from '../types/common.types.js'
+import { FILE_NOT_FOUND } from '../constants/err.constants.js'
 
 const updateFileService = async (
     userId: number,
@@ -17,8 +18,7 @@ const updateFileService = async (
 
         if (!oldFile) {
             await deleteLocalFile(file.filename)
-
-            return null
+            throw new Error(FILE_NOT_FOUND)
         }
 
         await deleteLocalFile(`${oldFile.name}${oldFile.extension}`)

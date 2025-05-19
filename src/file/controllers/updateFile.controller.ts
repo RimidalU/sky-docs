@@ -26,6 +26,9 @@ const updateFileController = async (req: AuthRequest, res: Response) => {
 
         res.status(201).json(file)
     } catch (err: any) {
+        if (err.message === FILE_NOT_FOUND) {
+            return res.status(404).json({ error: FILE_NOT_FOUND })
+        }
         logger.error('UpdatedFileController Controller error:', err)
         fileData && (await deleteLocalFile(fileData.filename))
 
