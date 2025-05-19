@@ -4,7 +4,7 @@ import {
     generateAccessToken,
     generateRefreshToken,
 } from '../utils/token.utils.js'
-import { comparePassword } from '../utils/crypto.utils.js'
+import { comparePassword, getRandomUUID } from '../utils/crypto.utils.js'
 import {
     deleteRefreshTokensByUserId,
     saveRefreshToken,
@@ -31,13 +31,16 @@ const signinService = async (
             throw new Error(INVALID_CREDENTIALS)
         }
 
-        const accessToken = generateAccessToken(user.id)
-        const refreshToken = generateRefreshToken(user.id)
+        const jti = getRandomUUID()
 
-        await deleteRefreshTokensByUserId(user.id, fingerprint)
+        const accessToken = generateAccessToken(user.id, jti)
+        const refreshToken = generateRefreshToken(user.id, jti)
+
+        await deleteRefreshTokensByUserId(user.id, fingerprint, jti)
 
         await saveRefreshToken({
             token: refreshToken.token,
+            jti,
             fingerprint,
             expiresAt: refreshToken.expiresAt,
             user,
